@@ -3,9 +3,10 @@
 import Image from "next/image"
 import { useState } from "react"
 import { Phone } from "@/types/productsTypes"
+import { Product } from "@/types/content"
 
 interface PhoneCardProps {
-  phone: Phone
+  phone: Product
 }
 
 export const ProductCard = ({ phone }: PhoneCardProps) => {

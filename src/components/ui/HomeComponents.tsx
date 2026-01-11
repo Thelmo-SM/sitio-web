@@ -1,8 +1,12 @@
 import Image from 'next/image'
 import portadaP from '../../../public/contenido_interno/portadaPNG.png'
 import { AnimateOnScroll } from './AnimateOnScroll'
+import { getHomeContent } from '@/services/content.service'
 
-export default function HomeComponents() {
+export default async  function HomeComponents() {
+
+  const home = await getHomeContent()
+
   return (
     <section className="relative h-[80vh] overflow-hidden bg-gray-800">
       {/* Imagen de fondo */}
@@ -31,7 +35,7 @@ export default function HomeComponents() {
                 leading-tight
               "
             >
-              Reparación y Venta de Celulares
+              {home?.heroTitle} {/* Reparación y Venta de Celulares */}
             </h1>
 
             {/* Descripción */}
@@ -43,7 +47,7 @@ export default function HomeComponents() {
                 text-gray-200
               "
             >
-              Accesorios, reparaciones profesionales y los mejores precios en tu zona
+             {home?.heroSubtitle} {/* Accesorios, reparaciones profesionales y los mejores precios en tu zona */}
             </p>
 
             {/* Botones */}

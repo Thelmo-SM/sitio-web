@@ -1,0 +1,23 @@
+# Archivo robots.txt para SEO
+# Permite a todos los motores de búsqueda acceder al sitio
+
+User-agent: *
+Allow: /
+Allow: /productos
+Allow: /servicios
+Allow: /contacto
+Allow: /ubicacion
+
+# Desallow para carpetas internas o privadas (si aplica)
+# Disallow: /admin
+# Disallow: /private
+
+# Especificar el sitemap
+Sitemap: https://tutienda.com/sitemap.xml
+
+# Velocidad de rastreo (ajusta según necesidad)
+Crawl-delay: 1
+
+# Bloquear robots específicos si es necesario
+# User-agent: BadBot
+# Disallow: /
