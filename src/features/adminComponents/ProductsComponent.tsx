@@ -136,7 +136,10 @@ export default function ProductsComponent() {
                     <div className="flex items-center gap-4">
                       <div className="relative w-12 h-12 flex-shrink-0">
                         <Image 
-                         src={p.image} 
+                         src={p.image.includes('cloudinary') 
+                          ? p.image.replace('/upload/', '/upload/f_auto,q_auto,w_150/') 
+                          : p.image
+                        } 
                          alt={`${p.brand} ${p.model}`}
                          
                          sizes="48px" // Optimización para el navegador
