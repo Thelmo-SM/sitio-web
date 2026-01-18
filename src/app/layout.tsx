@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 
-import Navbar from "@/components/ui/Header";
-import Footer from "@/components/ui/Footer";
+// Importa el nuevo componente
+import LayoutVisibility from "@/components/ui/LayoutVisibilty";
 import StructuredData from "@/components/ui/StructuredData";
-
 import { metadata as seoMetadata } from "./metadata";
 import {
   generateLocalBusinessSchema,
@@ -20,17 +19,16 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Datos estructurados (JSON-LD) */}
         <StructuredData data={generateLocalBusinessSchema()} />
         <StructuredData data={generateOrganizationSchema()} />
       </head>
 
       <body>
-        <Navbar />
-        {children}
-        <Footer />
+        {/* Usamos el Visibility Wrapper aquí */}
+        <LayoutVisibility>
+          {children}
+        </LayoutVisibility>
 
-        {/* Google Maps API */}
         <Script
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&libraries=places`}
           strategy="afterInteractive"

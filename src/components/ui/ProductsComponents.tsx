@@ -13,7 +13,10 @@ export const ProductsComponents = () => {
 
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {arraysPhones.map((phone) => (
-            <PhoneCard key={phone.id} phone={phone} />
+            <PhoneCard 
+    key={phone.id} 
+    phone={{ ...phone, id: String(phone.id) } as any} 
+  />
           ))}
         </div>
       </div>
