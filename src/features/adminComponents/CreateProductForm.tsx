@@ -7,6 +7,8 @@ import LoadingForm from '@/components/ui/loaders/LoadingForm';
 import SuccessMessage from './SuccessMessage';
 import ErrorMessage from './ErrorMessage';
 import { validateProductForm } from '@/utils/productValidation';
+import { uploadImage } from '@/lib/cloudinary';
+import Image from 'next/image';
 
 // Definimos props para recibir el producto a editar
 interface CreateProductFormProps {
@@ -135,6 +137,30 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
   };
 
+
+  // Cloudinary
+const [uploading, setUploading] = useState(false);
+
+const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  setUploading(true);
+  try {
+    const url = await uploadImage(file);
+    if (url) {
+      setFormData(prev => ({ ...prev, image: url }));
+    }
+  } catch (err) {
+    console.error("Error subiendo imagen");
+  } finally {
+    setUploading(false);
+  }
+};
+
+
+
+
   return (
     <div className="max-w-4xl mx-auto pb-24 px-4 min-h-[600px] flex flex-col justify-center">
       {!success ? (
@@ -190,36 +216,52 @@ const handleSubmit = async (e: React.FormEvent) => {
                 />
               ))}
 
-              <div className="md:col-span-2 space-y-2">
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">
-                  Imagen del Producto
-                </label>
-                <div className="border-2 border-dashed border-slate-800 rounded-xl p-4 bg-slate-950/30 hover:border-blue-500/50 transition-colors">
-                  {formData.image ? (
-                    <div className="relative group w-full max-h-48 overflow-hidden rounded-lg">
-                      <img src={formData.image} alt="Preview" className="w-full h-full object-contain" />
-                      <button 
-                        type="button"
-                        onClick={() => setFormData({...formData, image: ''})}
-                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full shadow-lg"
-                      >
-                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" /></svg>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center py-6">
-                       <p className="text-slate-600 text-xs font-bold uppercase italic tracking-tighter">Esperando Imagen</p>
-                       <input 
-                         type="url" 
-                         placeholder="Pega el link de Cloudinary"
-                         value={formData.image}
-                         onChange={(e) => setFormData({...formData, image: e.target.value})}
-                         className="mt-4 w-full bg-transparent text-center text-[10px] text-slate-500 outline-none"
-                       />
-                    </div>
-                  )}
-                </div>
-              </div>
+<div className="space-y-4"> {/* Aumentamos un poco el espacio vertical */}
+  <div className="space-y-2">
+    <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest">
+      Imagen del Producto
+    </p>
+    
+    {/* Este es el único botón que necesitas */}
+    <label className="flex items-center justify-center gap-3 w-full py-4 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest cursor-pointer transition-all shadow-lg shadow-blue-900/20">
+      {uploading ? (
+        <>
+          <span className="animate-spin text-lg">⏳</span>
+          <span>Subiendo a Cloudinary...</span>
+        </>
+      ) : (
+        <>
+          <span className="text-lg">📁</span>
+          <span>Seleccionar Imagen</span>
+        </>
+      )}
+      <input 
+        type="file" 
+        className="hidden" 
+        accept="image/*"
+        onChange={handleFileChange}
+        disabled={uploading}
+      />
+    </label>
+
+    {/* Vista previa elegante si hay imagen */}
+    {formData.image && (
+      <div className="mt-4 p-2 bg-slate-950 rounded border border-slate-800 flex items-center gap-4 animate-in zoom-in duration-300">
+        <Image 
+          src={formData.image} 
+          className="w-16 h-16 object-cover rounded border border-slate-700 shadow-xl" 
+          alt="Preview" 
+          width={48}  // Equivale a w-12
+          height={48} // Equivale a h-12
+        />
+        <div className="flex-1 overflow-hidden">
+          <p className="text-[9px] text-green-500 font-bold uppercase tracking-tight">Imagen cargada con éxito</p>
+          <p className="text-[8px] text-slate-500 truncate italic">{formData.image}</p>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
             </div>
 
             <div className="space-y-4 pt-6 border-t border-slate-800/50">

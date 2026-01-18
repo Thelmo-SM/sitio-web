@@ -5,17 +5,22 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'res.cloudinary.com', // <--- AGREGA ESTE PARA CLOUDINARY
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'istuffcr.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'm.media-amazon.com', // El que te dio el error ahora
+        hostname: 'm.media-amazon.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com', // Tus futuras fotos propias
+        hostname: 'firebasestorage.googleapis.com',
         pathname: '/**',
       },
       {

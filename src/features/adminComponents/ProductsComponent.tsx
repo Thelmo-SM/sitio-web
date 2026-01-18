@@ -7,6 +7,7 @@ import CreateProductForm from './CreateProductForm'
 import { useModal } from '@/hooks/useModalForm'
 import { Modal } from '@/components/ui/modals/Modal'
 import ConfirmDeleteModal from '@/components/ui/modals/ConfirmDeleteModal'
+import Image from 'next/image'
 
 export default function ProductsComponent() {
   const [products, setProducts] = useState<Product[]>([])
@@ -133,11 +134,21 @@ export default function ProductsComponent() {
                 <tr key={p.id} className="group hover:bg-white/[0.02] transition-colors">
                   <td className="p-5">
                     <div className="flex items-center gap-4">
-                      <img src={p.image} className="w-12 h-12 rounded object-cover bg-slate-800 border border-slate-700" alt="" />
+                      <div className="relative w-12 h-12 flex-shrink-0">
+                        <Image 
+                         src={p.image} 
+                         alt={`${p.brand} ${p.model}`}
+                         
+                         sizes="48px" // Optimización para el navegador
+                         className="rounded object-cover bg-slate-800 border border-slate-700"
+                         width={48}  // Equivale a w-12
+                         height={48} // Equivale a h-12
+                       />
+                     </div>
                       <div>
-                        <p className="font-bold text-white text-sm">{p.model}</p>
-                        <p className="text-[10px] text-slate-500 uppercase font-bold">{p.brand}</p>
-                      </div>
+                       <p className="font-bold text-white text-sm">{p.model}</p>
+                       <p className="text-[10px] text-slate-500 uppercase font-bold">{p.brand}</p>
+                     </div>
                     </div>
                   </td>
                   <td className="p-5 text-center">
