@@ -145,19 +145,37 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0];
   if (!file) return;
 
+  // Validación: No más de 5MB
+  if (file.size > 5 * 1024 * 1024) {
+    setError("La imagen es muy pesada (Máximo 5MB)");
+    return;
+  }
+
+  // Validación: Solo imágenes
+  if (!file.type.startsWith('image/')) {
+    setError("El archivo debe ser una imagen");
+    return;
+  }
+
   setUploading(true);
+  setError(null); // Limpiamos errores previos
+  
   try {
     const url = await uploadImage(file);
     if (url) {
       setFormData(prev => ({ ...prev, image: url }));
     }
   } catch (err) {
-    console.error("Error subiendo imagen");
+    setError("Error al conectar con el servidor de imágenes");
   } finally {
     setUploading(false);
   }
 };
 
+// 2. Función para quitar la imagen seleccionada
+const removeImage = () => {
+  setFormData(prev => ({ ...prev, image: '' }));
+};
 
 
 
@@ -216,51 +234,66 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 />
               ))}
 
-<div className="space-y-4"> {/* Aumentamos un poco el espacio vertical */}
-  <div className="space-y-2">
-    <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest">
-      Imagen del Producto
-    </p>
-    
-    {/* Este es el único botón que necesitas */}
-    <label className="flex items-center justify-center gap-3 w-full py-4 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest cursor-pointer transition-all shadow-lg shadow-blue-900/20">
+<div className="space-y-4">
+  <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest">
+    Imagen del Producto
+  </p>
+
+  {!formData.image ? (
+    // Mostrar botón de subida si NO hay imagen
+    <label className={`flex items-center justify-center gap-3 w-full py-4 rounded border-2 border-dashed transition-all cursor-pointer
+      ${uploading 
+        ? 'bg-slate-800/50 border-slate-700 pointer-events-none' 
+        : 'bg-slate-950 border-slate-800 hover:border-blue-500/50 hover:bg-slate-900'}`}
+    >
       {uploading ? (
-        <>
-          <span className="animate-spin text-lg">⏳</span>
-          <span>Subiendo a Cloudinary...</span>
-        </>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-[10px] font-black text-slate-400 uppercase">Subiendo...</span>
+        </div>
       ) : (
         <>
-          <span className="text-lg">📁</span>
-          <span>Seleccionar Imagen</span>
+          <span className="text-lg">📷</span>
+          <span className="text-[10px] font-black text-slate-400 uppercase">Click para subir foto</span>
         </>
       )}
-      <input 
-        type="file" 
-        className="hidden" 
-        accept="image/*"
-        onChange={handleFileChange}
-        disabled={uploading}
-      />
+      <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} disabled={uploading} />
     </label>
+  ) : (
+<div className="relative group animate-in fade-in zoom-in duration-300">
+  <div className="p-3 bg-slate-950 rounded border border-slate-800 flex items-center gap-4">
+    <div className="relative w-16 h-16 shrink-0 group">
+      <Image 
+        src={formData.image} 
+        alt="Preview" 
+        fill 
+        className="object-cover rounded border border-slate-800 shadow-2xl group-hover:opacity-40 transition-opacity"
+      />
+      {/* Botón flotante para cambiar rápido */}
+      <label className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-all">
+        <span className="text-[10px] font-bold text-white bg-blue-600/80 px-2 py-1 rounded">CAMBIAR</span>
+        <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} disabled={uploading} />
+      </label>
+    </div>
+    
+    <div className="flex-1 overflow-hidden">
+      <p className="text-[9px] text-blue-500 font-black uppercase italic">
+        {uploading ? "Subiendo nueva..." : "Imagen cargada"}
+      </p>
+      <p className="text-[8px] text-slate-500 truncate italic">{formData.image}</p>
+    </div>
 
-    {/* Vista previa elegante si hay imagen */}
-    {formData.image && (
-      <div className="mt-4 p-2 bg-slate-950 rounded border border-slate-800 flex items-center gap-4 animate-in zoom-in duration-300">
-        <Image 
-          src={formData.image} 
-          className="w-16 h-16 object-cover rounded border border-slate-700 shadow-xl" 
-          alt="Preview" 
-          width={48}  // Equivale a w-12
-          height={48} // Equivale a h-12
-        />
-        <div className="flex-1 overflow-hidden">
-          <p className="text-[9px] text-green-500 font-bold uppercase tracking-tight">Imagen cargada con éxito</p>
-          <p className="text-[8px] text-slate-500 truncate italic">{formData.image}</p>
-        </div>
-      </div>
-    )}
+    <button 
+      type="button"
+      onClick={removeImage}
+      className="p-2 hover:bg-red-500/10 text-slate-500 hover:text-red-500 rounded-full transition-colors"
+      title="Eliminar imagen"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2M10 11v6M14 11v6"/></svg>
+    </button>
   </div>
+</div>
+  )}
 </div>
             </div>
 
