@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { db } from '@/lib/firebase'
 import { collection, onSnapshot, query } from 'firebase/firestore'
 import { Product } from '@/types/content'
+import Image from 'next/image'
 
 export default function DashboardComponent() {
   const [products, setProducts] = useState<Product[]>([])
@@ -35,7 +36,7 @@ export default function DashboardComponent() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex items-center justify-center min-h-[25em]">
         <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     )
@@ -100,7 +101,7 @@ export default function DashboardComponent() {
           </div>
         </div>
 
-        {/* Columna Derecha: Recientes + Estado */}
+        {/* Columna Derecha: Recientes + Estado  */}
         <div className="space-y-6">
           {/* ÚLTIMOS INGRESOS */}
           <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
@@ -108,7 +109,7 @@ export default function DashboardComponent() {
             <div className="space-y-3">
               {recentProducts.map(rp => (
                 <div key={rp.id} className="flex items-center gap-3 p-2 bg-slate-950/50 border border-slate-800 rounded-xl group hover:border-blue-500/30 transition-colors">
-                  <img src={rp.image} alt="" className="w-10 h-10 rounded object-cover bg-slate-800" />
+                  <Image src={rp.image} alt="" className="w-10 h-10 rounded object-cover bg-slate-800" />
                   <div className="flex-1 min-w-0">
                     <p className="text-white text-[10px] font-bold truncate">{rp.model}</p>
                     <p className="text-slate-500 text-[8px] uppercase tracking-tighter">{rp.brand} • {rp.condition}</p>

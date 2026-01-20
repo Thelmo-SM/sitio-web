@@ -52,7 +52,7 @@ export default function Navbar() {
     {/* MOBILE MENU */}
 <div
   className={`
-    fixed inset-y-0 right-0 z-[100]
+    fixed inset-y-0 right-0 z-50
     w-80
     overflow-hidden
     pointer-events-none

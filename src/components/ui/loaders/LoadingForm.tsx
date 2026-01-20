@@ -1,4 +1,3 @@
-import loading from '@/css/loading.module.css';
 
 export default function LoadingForm() {
 

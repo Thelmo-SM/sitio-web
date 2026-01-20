@@ -39,7 +39,7 @@ export const UpdateServicesModal = () => {
       await Promise.all(promises)
       alert("✅ Todas las tarjetas actualizadas")
       closeModal()
-    } catch (error) {
+    } catch {
       alert("❌ Error al actualizar")
     } finally {
       setLoading(false)

@@ -165,7 +165,7 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (url) {
       setFormData(prev => ({ ...prev, image: url }));
     }
-  } catch (err) {
+  } catch  {
     setError("Error al conectar con el servidor de imágenes");
   } finally {
     setUploading(false);
@@ -180,7 +180,7 @@ const removeImage = () => {
 
 
   return (
-    <div className="max-w-4xl mx-auto pb-24 px-4 min-h-[600px] flex flex-col justify-center">
+    <div className="max-w-4xl mx-auto pb-24 px-4 min-h-[37.5em] flex flex-col justify-center">
       {!success ? (
         <form 
           onSubmit={handleSubmit} 
@@ -269,7 +269,7 @@ const removeImage = () => {
         fill 
         className="object-cover rounded border border-slate-800 shadow-2xl group-hover:opacity-40 transition-opacity"
       />
-      {/* Botón flotante para cambiar rápido */}
+      {/* Botón flotante para cambiar rápido img */}
       <label className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-all">
         <span className="text-[10px] font-bold text-white bg-blue-600/80 px-2 py-1 rounded">CAMBIAR</span>
         <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} disabled={uploading} />

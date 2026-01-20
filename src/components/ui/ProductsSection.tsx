@@ -62,7 +62,7 @@ export const ProductsSection = () => {
         />
 
         {/* Lista de Productos Reales */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 min-h-[42rem] items-start">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 min-h-[42em] items-start">
           {currentProducts.length > 0 ? (
             currentProducts.map((product) => (
               <ProductCard key={product.id} phone={product} />

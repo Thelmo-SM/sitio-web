@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { db } from '@/lib/firebase' 
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
 import { Product } from '@/types/content' 
+import Image from 'next/image'
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([])
@@ -34,7 +35,7 @@ export default function ProductList() {
             <tr key={p.id} className="hover:bg-slate-800/30 transition-colors">
               <td className="p-4">
                 <div className="flex items-center gap-3">
-                  <img src={p.image} className="w-10 h-10 rounded-lg object-cover bg-slate-800" alt={p.model} />
+                  <Image src={p.image} className="w-10 h-10 rounded-lg object-cover bg-slate-800" alt={p.model} />
                   <div>
                     <div className="font-bold text-white">{p.brand}</div>
                     <div className="text-sm text-slate-400">{p.model}</div>

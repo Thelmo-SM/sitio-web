@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { useState } from "react"
-import { Phone } from "@/types/productsTypes"
 import { Product } from "@/types/content"
 
 interface PhoneCardProps {
@@ -54,7 +53,7 @@ export const ProductCard = ({ phone }: PhoneCardProps) => {
     text-lg
     font-semibold
     line-clamp-2
-    min-h-[3rem]
+    min-h-[3em]
   "
 >
   {brand} {model}

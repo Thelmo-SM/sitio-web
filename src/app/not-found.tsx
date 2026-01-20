@@ -3,7 +3,7 @@ import Link from 'next/link'
 export default function NotFound() {
   return (
     <main className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
-      {/* Elementos Decorativos de Fondo */}
+      {/* Elementos Decorativos de Fondo img */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-600/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-600/10 rounded-full blur-[120px]" />
