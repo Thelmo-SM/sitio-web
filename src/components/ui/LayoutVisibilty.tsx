@@ -5,7 +5,7 @@ import Footer from "@/components/ui/Footer";
 
 export default function LayoutVisibility({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const isAdmin = pathname.startsWith('/admin')
+  const isAdmin = pathname.startsWith('/administracion/home')
 
   if (isAdmin) {
     return <>{children}</> // En admin, no renderiza Navbar ni Footer públicos
