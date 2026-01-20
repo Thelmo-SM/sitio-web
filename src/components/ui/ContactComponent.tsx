@@ -20,7 +20,7 @@ const FormularioContacto = () => {
   } = useContactForm()
 
   return (
-    <section className="bg-black backdrop-blur pb-20">
+    <section className="bg-black backdrop-blur pb-20 scroll-mt-20" id="contacto">
     <div className="min-h-screen py-16 px-4 font-sans">
       {/* Título Principal */}
       <AnimateOnScroll animation="zoom" delay={200}>

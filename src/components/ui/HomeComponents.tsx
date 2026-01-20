@@ -8,7 +8,7 @@ export default async  function HomeComponents() {
   const home = await getHomeContent()
 
   return (
-    <section className="relative h-[80vh] overflow-hidden bg-gray-800">
+    <section className="relative h-[80vh] overflow-hidden bg-gray-800 scroll-mt-20" id='inicio'>
       {/* Imagen de fondo */}
       <Image
         src={portadaP}

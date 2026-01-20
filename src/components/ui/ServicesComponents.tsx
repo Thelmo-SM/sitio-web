@@ -30,7 +30,7 @@ export const ServicesComponents = () => {
   if (loading) return null // O un esqueleto de carga (skeleton)
 
   return (
-    <section className="bg-gray-900 backdrop-blur pb-20">
+    <section className="bg-gray-900 backdrop-blur pb-20 scroll-mt-20" id='servicios'>
       <div className="max-w-7xl mx-auto px-4">
         <h1 className="text-center text-gray-400 pt-10 text-2xl md:text-4xl font-bold">
           Servicios

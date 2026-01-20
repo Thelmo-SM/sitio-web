@@ -25,7 +25,7 @@ export const WhyChooseUs = () => {
   if (loading && reasons.length === 0) return null;
 
   return (
-    <section className="bg-gray-900 pb-20">
+    <section className="bg-gray-900 pb-20 scroll-mt-20" id="nosotros">
       <h2 className="text-center text-gray-400 pt-10 text-2xl md:text-4xl font-bold">
         ¿Por qué elegirnos?
       </h2>

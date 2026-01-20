@@ -6,8 +6,9 @@ import { useState } from 'react'
 const navLinks = [
   { label: 'Inicio', href: '#inicio' },
   { label: 'Servicios', href: '#servicios' },
-  { label: 'Accesorios', href: '#accesorios' },
-  { label: 'Reparaciones', href: '#reparaciones' },
+  { label: 'Productos', href: '#productos' },
+  { label: 'Nosotros', href: '#nosotros' },
+  { label: 'Dirección', href: '#direccion' },
   { label: 'Contacto', href: '#contacto' },
 ]
 
@@ -20,7 +21,7 @@ export default function Navbar() {
       <header className="fixed top-0 z-50 w-full bg-gray-900/80 backdrop-blur border-b border-white/10">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           {/* Logo */}
-          <Link href="#inicio" className="text-xl font-bold text-white">
+          <Link href="/" className="text-xl font-bold text-white">
             Sitio<span className="text-blue-500">Web</span>
           </Link>
 

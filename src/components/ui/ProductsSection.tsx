@@ -43,7 +43,7 @@ export const ProductsSection = () => {
   if (loading) return <div className="bg-black py-20 text-center text-white">Cargando productos...</div>;
 
   return (
-    <section className="bg-black backdrop-blur pb-20">
+    <section className="bg-black backdrop-blur pb-20 scroll-mt-20" id='productos'>
       <div className="mx-auto w-[85%]">
         <AnimateOnScroll animation="zoom" delay={200}>
           <h2 className="text-center text-gray-400 pt-10 text-2xl md:text-4xl font-bold">
