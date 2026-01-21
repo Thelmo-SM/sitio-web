@@ -39,7 +39,7 @@ export default function LoginComponent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <form 
         onSubmit={handleLogin} 
         className="bg-gray-900 p-8 rounded border border-slate-800 w-full max-w-md shadow-2xl"

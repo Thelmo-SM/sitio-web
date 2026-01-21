@@ -8,7 +8,7 @@ export default function UpdateContentLayout({
 }) {
   return (
     <AuthGuard>
-    <section className="admin-layout bg-gray-900">
+    <section className="bg-gray-900">
       <AdminNav />
       {children} 
     </section>
