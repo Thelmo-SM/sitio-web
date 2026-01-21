@@ -19,7 +19,7 @@ export const FormMessage = ({ type, message }: FormMessageProps) => {
     <div
       className={`
         flex items-start gap-3
-        border rounded-lg
+        border rounded
         px-4 py-3
         text-sm font-medium
         ${styles[type].container}

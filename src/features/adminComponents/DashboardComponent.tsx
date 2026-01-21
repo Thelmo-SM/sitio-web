@@ -37,7 +37,7 @@ export default function DashboardComponent() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[25em]">
-        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded animate-spin"></div>
       </div>
     )
   }
@@ -47,25 +47,25 @@ export default function DashboardComponent() {
       
       {/* 1. MÉTRICAS RÁPIDAS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+        <div className="bg-slate-900 border border-slate-800 p-6 rounded shadow-xl">
           <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-1">Valor Total</p>
           <h3 className="text-3xl font-mono font-bold text-white">${stats.totalInversion.toLocaleString()}</h3>
           <p className="text-slate-500 text-[10px] mt-2 italic">Inversión en vitrina</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+        <div className="bg-slate-900 border border-slate-800 p-6 rounded shadow-xl">
           <p className="text-[10px] font-black text-purple-500 uppercase tracking-[0.2em] mb-1">Dispositivos</p>
           <h3 className="text-3xl font-bold text-white">{stats.phoneCount}</h3>
           <p className="text-slate-500 text-[10px] mt-2 italic">{stats.newCount} Nuevos / {stats.usedCount} Usados</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+        <div className="bg-slate-900 border border-slate-800 p-6 rounded shadow-xl">
           <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] mb-1">Accesorios</p>
           <h3 className="text-3xl font-bold text-white">{stats.accCount}</h3>
           <p className="text-slate-500 text-[10px] mt-2 italic">Complementos en stock</p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl">
+        <div className="bg-slate-900 border border-slate-800 p-6 rounded shadow-xl">
           <p className="text-[10px] font-black text-orange-500 uppercase tracking-[0.2em] mb-1">Marcas</p>
           <h3 className="text-3xl font-bold text-white">{stats.uniqueBrands}</h3>
           <p className="text-slate-500 text-[10px] mt-2 italic">Fabricantes registrados</p>
@@ -76,9 +76,9 @@ export default function DashboardComponent() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Distribución por Marcas */}
-        <div className="lg:col-span-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+        <div className="lg:col-span-2 bg-slate-900/50 border border-slate-800 rounded p-6">
           <h4 className="text-white text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-2">
-            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+            <span className="w-2 h-2 bg-blue-500 rounded animate-pulse"></span>
             Distribución de Inventario
           </h4>
           
@@ -92,7 +92,7 @@ export default function DashboardComponent() {
                     <span className="text-slate-300">{brand}</span>
                     <span className="text-slate-500">{count} equipos</span>
                   </div>
-                  <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-slate-800 rounded overflow-hidden">
                     <div className="h-full bg-blue-600 transition-all duration-1000" style={{ width: `${percentage}%` }}></div>
                   </div>
                 </div>
@@ -104,12 +104,12 @@ export default function DashboardComponent() {
         {/* Columna Derecha: Recientes + Estado  */}
         <div className="space-y-6">
           {/* ÚLTIMOS INGRESOS */}
-          <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
+          <div className="bg-slate-900/50 border border-slate-800 p-6 rounded">
             <h4 className="text-white text-[10px] font-black uppercase tracking-widest mb-4">Últimos ingresos</h4>
             <div className="space-y-3">
               {recentProducts.map(rp => (
-                <div key={rp.id} className="flex items-center gap-3 p-2 bg-slate-950/50 border border-slate-800 rounded-xl group hover:border-blue-500/30 transition-colors">
-                  <Image src={rp.image} alt="" className="w-10 h-10 rounded object-cover bg-slate-800" />
+                <div key={rp.id} className="flex items-center gap-3 p-2 bg-slate-950/50 border border-slate-800 rounded group hover:border-blue-500/30 transition-colors">
+                  <Image src={rp.image} alt="" className="w-10 h-10 rounded object-cover bg-slate-800" width={45} height={45}/>
                   <div className="flex-1 min-w-0">
                     <p className="text-white text-[10px] font-bold truncate">{rp.model}</p>
                     <p className="text-slate-500 text-[8px] uppercase tracking-tighter">{rp.brand} • {rp.condition}</p>
@@ -121,7 +121,7 @@ export default function DashboardComponent() {
           </div>
 
           {/* ESTADO ONLINE */}
-          <div className="bg-blue-600 rounded-2xl p-6 text-white relative overflow-hidden group">
+          <div className="bg-blue-600 rounded p-6 text-white relative overflow-hidden group">
             <div className="relative z-10">
               <h4 className="font-black uppercase italic text-lg leading-tight">Catálogo Live</h4>
               <p className="text-blue-100 text-[10px] mt-1 opacity-90">Sincronizado con tienda física.</p>

@@ -11,7 +11,7 @@ export default async  function HomeComponents() {
     <section className="relative h-[80vh] overflow-hidden bg-gray-800 scroll-mt-20" id='inicio'>
       {/* Imagen de fondo */}
       <Image
-        src={portadaP}
+        src={home?.heroImage || portadaP}
         alt="Portada tienda de celulares"
         fill
         priority
