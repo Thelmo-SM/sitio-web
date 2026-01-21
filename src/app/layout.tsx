@@ -23,7 +23,7 @@ export default function RootLayout({
         <StructuredData data={generateOrganizationSchema()} />
       </head>
 
-      <body>
+      <body className="bg-gray-900">
         {/* Usamos el Visibility Wrapper aquí */}
         <LayoutVisibility>
           {children}

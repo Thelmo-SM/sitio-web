@@ -8,9 +8,8 @@ export default function UpdateContentLayout({
 }) {
   return (
     <AuthGuard>
-    <section className="admin-layout">
+    <section className="admin-layout bg-gray-900">
       <AdminNav />
-      {/* Aquí puedes poner un menú lateral o un header de admin si quieres */}
       {children} 
     </section>
     </AuthGuard>
