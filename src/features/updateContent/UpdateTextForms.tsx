@@ -99,7 +99,6 @@ export default function UpdateTextForms() {
     </div>
   )
 }
-
 /* --- COMPONENTE INTERNO: HERO FORM --- */
 interface HeroFormProps {
   initialData: HomeContent;
@@ -118,21 +117,13 @@ function HeroForm({ initialData, onSave, onClose, isLoading: parentLoading }: He
   const [isCloudinaryLoading, setIsCloudinaryLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const localUrl = URL.createObjectURL(file);
-      
-      // 1. Actualizamos el archivo físico para Cloudinary
       setImageFile(file);
-      
-      // 2. Actualizamos la vista previa visual
       setPreviewUrl(localUrl);
-      
-      // 3. ¡IMPORTANTE! Actualizamos el formData para que el validador lo vea
       setFormData(prev => ({ ...prev, heroImage: localUrl }));
-      
-      // 4. Limpiamos el error visualmente si existía
       if (errors.heroImage) {
         setErrors(prev => ({ ...prev, heroImage: undefined }));
       }
@@ -160,7 +151,11 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     try {
       setIsCloudinaryLoading(true);
-      const finalData = { ...formData };
+      const finalData = { 
+        ...formData,
+        whatsapp: formData.whatsapp.replace(/\D/g, ''),
+        phone: formData.phone.replace(/\D/g, '')
+      };
 
       if (imageFile) {
         const uploadedUrl = await uploadToCloudinary(imageFile);
@@ -196,30 +191,48 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       {status && <FormMessage type={status.type} message={status.msg} />}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div className="md:col-span-2 space-y-2">
-          <label className="text-slate-400 text-[10px] font-bold uppercase tracking-widest ml-1">Imagen de Portada</label>
-          <div 
-            onClick={() => !isAnyLoading && fileInputRef.current?.click()}
-            className={`relative h-48 w-full bg-slate-950 rounded border-2 border-dashed border-slate-800 overflow-hidden transition-all flex items-center justify-center group ${isAnyLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:border-blue-500'}`}
-          >
-            {previewUrl && (
-              <Image 
-                src={previewUrl} 
-                alt="Vista previa de la portada" 
-                className="w-full h-full object-cover opacity-40 group-hover:opacity-20 transition-opacity" 
-                fill
-                sizes="(max-width: 768px) 100vw, 800px"
-              />
-            )}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-2xl mb-2 group-hover:scale-110 transition-transform">📸</span>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center px-4">
-                {imageFile ? "Imagen seleccionada" : "Click para seleccionar imagen"}
-              </p>
-            </div>
-            <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
-          </div>
-        </div>
+<div className="md:col-span-2 space-y-2">
+  {/* CABECERA DE IMAGEN CON GUÍAS */}
+  <div className="flex justify-between items-end px-1">
+    <label className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+      Imagen de Portada
+    </label>
+    <div className="text-right">
+      <span className="block text-blue-900 text-SM font-black uppercase tracking-tighter">
+        Tamaño Ideal: 1920 x 1080 px
+      </span>
+      <span className="block text-slate-500 text-SM font-medium">
+        Formatos: JPG, PNG, WebP (Máx. 2MB)
+      </span>
+    </div>
+  </div>
+
+  <div 
+    onClick={() => !isAnyLoading && fileInputRef.current?.click()}
+    className={`relative h-56 w-full bg-slate-950 rounded border-2 border-dashed border-slate-800 overflow-hidden transition-all flex items-center justify-center group ${isAnyLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:border-blue-500'}`}
+  >
+    {previewUrl && (
+      <Image 
+        src={previewUrl} 
+        alt="Vista previa de la portada" 
+        className="w-full h-full object-cover opacity-40 group-hover:opacity-20 transition-opacity" 
+        fill
+        sizes="(max-width: 768px) 100vw, 800px"
+      />
+    )}
+    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+      <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">📸</span>
+      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center px-4">
+        {imageFile ? "Imagen lista para subir" : "Click para seleccionar banner horizontal"}
+      </p>
+    </div>
+    <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
+  </div>
+  
+  <p className="text-[10px] text-slate-500 italic px-1">
+    * Nota: Usa fotos en horizontal. Las fotos verticales se recortarán automáticamente para encajar en el diseño.
+  </p>
+</div>
 
         <div className="space-y-2">
           <label className="text-slate-400 text-[10px] font-bold uppercase tracking-widest ml-1">Título Principal</label>
@@ -233,15 +246,33 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           {errors.heroSubtitle && <p className="text-red-500 text-[10px] font-bold px-1">{errors.heroSubtitle}</p>}
         </div>
 
+        {/* INPUT WHATSAPP CORREGIDO */}
         <div className="space-y-2">
           <label className="text-slate-400 text-[10px] font-bold uppercase tracking-widest ml-1">WhatsApp</label>
-          <input name="whatsapp" type="text" value={formData.whatsapp} onChange={handleChange} className={inputClass("whatsapp")} />
+          <input 
+            name="whatsapp" 
+            type="text" 
+            value={formData.whatsapp} 
+            onChange={handleChange} 
+            className={inputClass("whatsapp")} 
+            placeholder="Ej: 8091234567" 
+          />
+          <p className="text-[10px] text-slate-500 italic px-1">Se guardará sin espacios para el enlace.</p>
           {errors.whatsapp && <p className="text-red-500 text-[10px] font-bold px-1">{errors.whatsapp}</p>}
-        </div>
+        </div>  
 
+        {/* INPUT TELÉFONO CORREGIDO */}
         <div className="space-y-2">
           <label className="text-slate-400 text-[10px] font-bold uppercase tracking-widest ml-1">Teléfono</label>
-          <input name="phone" type="text" value={formData.phone} onChange={handleChange} className={inputClass("phone")} />
+          <input 
+            name="phone" 
+            type="text" 
+            value={formData.phone} 
+            onChange={handleChange} 
+            className={inputClass("phone")} 
+            placeholder="Ej: 8091234567" 
+          />
+          <p className="text-[10px] text-slate-500 italic px-1">Solo números, por favor.</p>
         </div>
       </div>
 

@@ -15,6 +15,12 @@ export const validateHeroForm = (data: HomeContent) => {
   ) {
     newErrors.heroImage = "Debe ser una URL válida o un archivo seleccionado";
   }
+  // En src/utils/heroValidator.ts
+  if (!data.whatsapp.trim()) {
+  newErrors.whatsapp = "El WhatsApp es necesario";
+  } else if (data.whatsapp.replace(/\D/g, '').length < 10) {
+  newErrors.whatsapp = "Incluye el código de área (ej: 809...)";
+  }
 
   return {
     errors: newErrors,

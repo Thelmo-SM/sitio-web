@@ -7,22 +7,34 @@ export default async  function HomeComponents() {
 
   const home = await getHomeContent()
 
+  // Lógica de optimización de URL de Cloudinary
+  const getOptimizedImage = (url: string | undefined) => {
+    if (!url) return portadaP;
+    if (url.includes('cloudinary')) {
+      // Insertamos parámetros de auto-formato, auto-calidad y ancho máximo 1920px
+      return url.replace('/upload/', '/upload/f_auto,q_auto,w_1920,c_limit/');
+    }
+    return url;
+  }
+
   return (
     <section className="relative h-[80vh] overflow-hidden bg-gray-800 scroll-mt-20" id='inicio'>
       {/* Imagen de fondo */}
       <Image
-        src={home?.heroImage || portadaP}
+        src={getOptimizedImage(home?.heroImage)}
         alt="Portada tienda de celulares"
         fill
-        priority
-        className="object-cover animate-fade-in"
+        priority // Crítico para el LCP
+        className="object-cover animate-fade-in transition-opacity duration-700"
+        sizes="100vw"
+        quality={90}
       />
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 animate-fade-in" />
 
       {/* Contenido */}
-      <div className="relative z-10 h-full flex items-center justify-center px-4">
+      <div className="relative z-10 h-full flex items-center justify-center px-4 bg-gradient-to-t from-slate-950/50">
         <AnimateOnScroll animation="blur">
           <div className="w-full max-w-5xl text-center">
             {/* Título */}
