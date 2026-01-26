@@ -31,8 +31,8 @@ export type Product = {
   storage?: string
   condition?: string
   image: string
+  images?: string[]
 }
-
 // ----------------------------
 
 export type WhyChooseUs = {

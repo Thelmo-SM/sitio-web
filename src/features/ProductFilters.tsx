@@ -11,7 +11,7 @@ const ProductFilters = ({ activeFilter, onChange }: ProductFiltersProps) => {
       <button
         onClick={() => onChange('phone')}
         className={`
-          px-5 py-2 rounded text-sm font-medium transition
+          px-5 py-2 rounded text-sm font-medium transition cursor-pointer
           ${activeFilter === 'phone'
             ? 'bg-blue-900 text-gray-200'
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}
@@ -23,7 +23,7 @@ const ProductFilters = ({ activeFilter, onChange }: ProductFiltersProps) => {
       <button
         onClick={() => onChange('accessory')}
         className={`
-          px-5 py-2 rounded text-sm font-medium transition
+          px-5 py-2 rounded text-sm font-medium transition cursor-pointer
           ${activeFilter === 'accessory'
             ? 'bg-blue-900 text-gray-200'
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}

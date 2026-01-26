@@ -7,18 +7,25 @@ import ProductFilters from '@/features/ProductFilters';
 import SectionDivider from './SectionDivider';
 import { AnimateOnScroll } from './AnimateOnScroll';
 import { getProducts } from '@/services/content.service';
-import { Product } from '@/types/content'; // Importa tu tipo
+import { Product } from '@/types/content';
+
+// IMPORTAMOS TUS NUEVOS COMPONENTES ESPECÍFICOS
+import { ModalProducts } from './modals/ModalProducts';  
+import { useModalProducts } from '@/hooks/useModalProducts'; // Ajusta la ruta según tu carpeta
+import ProductDetail from './ProductDetail'; // El contenido que creamos
 
 const ITEMS_PER_PAGE = 10
 
 export const ProductsSection = () => {
-  // 1. Estados para los datos de Firebase
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState<'phone' | 'accessory'>('phone');
 
-  // 2. Cargar productos desde Firebase al iniciar
+  // USAMOS TU HOOK PERSONALIZADO
+  const { isOpen, openModal, closeModal } = useModalProducts();
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
   useEffect(() => {
     const loadData = async () => {
       const data = await getProducts();
@@ -28,18 +35,20 @@ export const ProductsSection = () => {
     loadData();
   }, []);
 
-  // 3. Filtrar por tipo (usando los datos de la base de datos)
+  // Función para manejar el clic en el producto
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    openModal();
+  };
+
   const filteredProducts = allProducts.filter(
     (product) => product.type === filter
   );
 
-  // 4. Paginación basada en el filtro
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+  const currentProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  // Si está cargando, puedes mostrar un spinner o nada
   if (loading) return <div className="bg-black py-20 text-center text-white">Cargando productos...</div>;
 
   return (
@@ -52,7 +61,6 @@ export const ProductsSection = () => {
         </AnimateOnScroll>
         <SectionDivider />
 
-        {/* Filtros */}
         <ProductFilters
           activeFilter={filter}
           onChange={(value) => {
@@ -61,11 +69,16 @@ export const ProductsSection = () => {
           }}
         />
 
-        {/* Lista de Productos Reales */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 min-h-[42em] items-start">
           {currentProducts.length > 0 ? (
             currentProducts.map((product) => (
-              <ProductCard key={product.id} phone={product} />
+              <div 
+                key={product.id} 
+                onClick={() => handleProductClick(product)}
+                className="cursor-pointer transform transition-transform hover:scale-[1.02] active:scale-95"
+              >
+                <ProductCard phone={product} />
+              </div>
             ))
           ) : (
             <div className="col-span-full text-center text-gray-500 py-20">
@@ -74,7 +87,6 @@ export const ProductsSection = () => {
           )}
         </div>
 
-        {/* Paginación */}
         {totalPages > 1 && (
           <PaginationProducts
             currentPage={currentPage}
@@ -82,6 +94,17 @@ export const ProductsSection = () => {
             onPageChange={setCurrentPage}
           />
         )}
+
+        {/* --- TU NUEVO MODAL ESPECÍFICO DE PRODUCTOS --- */}
+        <ModalProducts 
+          isOpen={isOpen} 
+          onClose={closeModal} 
+          title={selectedProduct ? `${selectedProduct.brand} ${selectedProduct.model}` : "Detalle"}
+        >
+          {selectedProduct && (
+            <ProductDetail product={selectedProduct} />
+          )}
+        </ModalProducts>
       </div>
     </section>
   );
