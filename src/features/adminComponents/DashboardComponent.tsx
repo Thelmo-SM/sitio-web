@@ -123,8 +123,8 @@ export default function DashboardComponent() {
           {/* ESTADO ONLINE */}
           <div className="bg-blue-600 rounded p-6 text-white relative overflow-hidden group">
             <div className="relative z-10">
-              <h4 className="font-black uppercase italic text-lg leading-tight">Catálogo Live</h4>
-              <p className="text-blue-100 text-[10px] mt-1 opacity-90">Sincronizado con tienda física.</p>
+              <h4 className="font-black uppercase italic text-lg leading-tight">Ir al sitio público</h4>
+              <p className="text-blue-100 text-sm mt-1 opacity-90">Sincronizado con tienda física.</p>
               <a href="/" target="_blank" className="inline-block mt-4 bg-white text-blue-600 font-black px-4 py-2 rounded text-[9px] uppercase tracking-widest hover:bg-blue-50 transition-all">
                 Ver Tienda
               </a>
