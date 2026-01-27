@@ -1,82 +1,116 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Product } from "@/types/content"
 
 export const ProductDetail = ({ product }: { product: Product }) => {
-  // Manejo de galería con fallback a la imagen única
-  const gallery = product.images && product.images.length > 0 
-    ? product.images 
-    : [product.image]
+  // FUERZA LA GALERÍA: Combinamos imagen principal + array secundario
+  // Usamos un Set para evitar que la imagen 0 se repita
+  const gallery = Array.from(new Set([
+    product.image,
+    ...(product.images || [])
+  ])).filter(Boolean);
+
+  console.log('Galería del producto:', gallery);
   
   const [activeImg, setActiveImg] = useState(gallery[0])
 
+  useEffect(() => {
+    if (gallery.length > 0) setActiveImg(gallery[0]);
+  }, [product.image]);
+
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
-      `¡Hola! Me interesa este equipo:\n*${product.brand} ${product.model}*\nPrecio: $${product.price.toLocaleString()}\n\n¿Tienen disponibilidad?`
+      `¡Hola! Me interesa: *${product.brand} ${product.model}*\nColor: ${product.color}\nPrecio: $${product.price}`
     )
     window.open(`https://wa.me/8294451034?text=${message}`, '_blank')
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 w-full max-w-2xl mx-auto bg-gray-900/50 p-6 rounded border border-slate-800 backdrop-blur-md">
+      
       {/* IMAGEN PRINCIPAL */}
-      <div className="relative h-64 w-full bg-slate-50 rounded overflow-hidden border">
+      <div className="relative h-72 md:h-96 w-full bg-gray-900/50 rounded overflow-hidden border border-slate-800 shadow-2xl">
         <Image 
           src={activeImg} 
           fill 
-          className="object-contain p-2" 
+          className="object-contain p-6 transition-transform duration-500 hover:scale-105" 
           alt={product.model} 
+          unoptimized // Agregado para asegurar que Cloudinary cargue rápido en pruebas
         />
       </div>
 
-      {/* MINIATURAS (Las 3 imágenes) */}
-      <div className="flex gap-2 justify-center">
+      {/* MINIATURAS - Forzamos que se vean siempre */}
+      <div className="flex gap-4 justify-center overflow-x-auto py-2">
         {gallery.map((img, i) => (
           <button
             key={i}
             onClick={() => setActiveImg(img)}
-            className={`relative w-14 h-14 rounded-md overflow-hidden border-2 transition-all
-              ${activeImg === img ? 'border-blue-500 scale-105' : 'border-transparent opacity-60'}`}
+            className={`relative min-w-[6em] h-16 cursor-pointer rounded overflow-hidden border-2 transition-all
+              ${activeImg === img ? 'border-blue-500 scale-110 shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'border-slate-800 opacity-40 hover:opacity-100'}`}
           >
-            <Image src={img} fill className="object-cover" alt="thumb" />
+            <Image src={img} fill className="object-cover" alt={`Thumb ${i}`} />
           </button>
         ))}
       </div>
 
-      {/* INFO DEL PRODUCTO */}
-      <div className="space-y-4">
-        <div className="flex justify-between items-start">
-          <div>
-            <p className="text-xs font-bold text-blue-900 uppercase tracking-tighter">{product.brand}</p>
-            <h3 className="text-xl font-black text-gray-900">{product.model}</h3>
+      {/* DETALLES ESTILO DARK */}
+      <div className="space-y-6">
+        <div className="flex justify-between items-end border-b border-slate-800 pb-6">
+          <div className="space-y-1">
+            <span className="text-blue-900 text-sm font-black uppercase tracking-widest">{product.brand}</span>
+            <h2 className="text-3xl font-black text-white tracking-tight">{product.model}</h2>
+            <p className="text-slate-400 text-sm font-bold uppercase">{product.color || 'Sin color'}</p>
           </div>
-          <p className="text-xl font-bold text-gray-900">${product.price.toLocaleString()}</p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-gray-50 p-3 rounded border border-gray-100">
-            <span className="block text-[10px] text-gray-400 font-bold uppercase">Estado</span>
-            <span className="text-sm font-bold text-gray-700">{product.condition || 'N/A'}</span>
-          </div>
-          <div className="bg-gray-50 p-3 rounded border border-gray-100">
-            <span className="block text-[10px] text-gray-400 font-bold uppercase">Memoria</span>
-            <span className="text-sm font-bold text-gray-700">{product.storage || 'N/A'}</span>
+          <div className="text-right">
+            <p className="text-3xl font-black text-white">${product.price.toLocaleString()}</p>
+            <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase ${product.status === 'available' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
+              {product.status === 'available' ? 'Disponible' : 'Agotado'}
+            </span>
           </div>
         </div>
 
-        {/* BOTÓN AL ADMIN */}
+        {/* GRID DE SPECS DARK */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <SpecTile label="Estado" value={product.condition} icon="✨" />
+          <SpecTile label="Memoria" value={product.storage} icon="💾" />
+          {product.type === 'phone' && (
+            <>
+              {/* Corregido el nombre del campo para que no de undefined */}
+              <SpecTile  label="Batería" value={product.battery ? `${product.battery}%` : 'N/A'} icon="🔋"/>
+              <SpecTile label="Cámara" value={product.camera} icon="📸" />
+              <SpecTile label="Pantalla" value={product.screen} icon="📱" />
+            </>
+          )}
+        </div>
+
+        {/* DESCRIPCIÓN DARK */}
+        {product.description && (
+          <div className="bg-gray-950/40 p-5 rounded border border-gray-800/50">
+            <p className="text-[10px] font-black text-slate-500 uppercase mb-2 tracking-widest">Descripción</p>
+            <p className="text-sm text-slate-300 leading-relaxed italic">{product.description}</p>
+          </div>
+        )}
+
         <button 
           onClick={handleWhatsApp}
-          className="w-full cursor-pointer bg-[#25D366] hover:bg-[#1fae53] text-white font-bold py-4 rounded flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg"
+          className="w-full bg-green-600 hover:bg-green-500 text-white font-black py-5 rounded flex items-center justify-center gap-3 transition-all active:scale-95 shadow-lg shadow-green-900/20 uppercase tracking-widest text-xs"
         >
           <span className="text-xl">💬</span>
-          CONSULTAR POR WHATSAPP
+          Contactar por WhatsApp
         </button>
       </div>
     </div>
   )
-};
+}
 
-export default ProductDetail;
+const SpecTile = ({ label, value, icon }: { label: string, value?: string, icon: string }) => (
+  <div className="bg-slate-900/80 p-4 rounded border border-gray-800 flex flex-col items-center justify-center text-center">
+    <span className="text-xl mb-1">{icon}</span>
+    <span className="text-sm font-black text-slate-500 uppercase tracking-tighter mb-1">{label}</span>
+    <span className="text-sm font-bold text-slate-200 truncate w-full px-1">{value || 'N/A'}</span>
+  </div>
+)
+
+export default ProductDetail

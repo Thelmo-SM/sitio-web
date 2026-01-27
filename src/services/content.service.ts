@@ -39,16 +39,30 @@ export const getProducts = async (): Promise<Product[]> => {
     
     return snapshot.docs.map(doc => {
       const data = doc.data()
+      
       return {
         id: doc.id,
+        // CAMPOS BASE
         type: data.type,
         brand: data.brand,
         model: data.model,
         price: Number(data.price),
         image: data.image,
-        // Campos opcionales: si no existen en Firebase, se quedan como undefined
+        status: data.status || 'available',
+
+        // CAMPOS DE IMAGENES (El array que te faltaba)
+        images: Array.isArray(data.images) ? data.images : [],
+
+        // ESPECIFICACIONES (Mapeo exacto a tus minúsculas de Firebase)
         storage: data.storage || undefined,
         condition: data.condition || undefined,
+        battery: data.battery || undefined, // ¡Importante para el undefined%!
+        color: data.color || undefined,
+        camera: data.camera || undefined,
+        screen: data.screen || undefined,
+        description: data.description || undefined,
+        
+        createdAt: data.createdAt
       } as Product
     })
   } catch (error) {

@@ -1,33 +1,42 @@
 import { Product } from '@/types/content';
 
 export const validateProductForm = (data: Omit<Product, 'id'>): string | null => {
-  // --- 1. Validaciones Globales (Para ambos: Teléfono y Accesorio) ---
+  // --- 1. Validaciones Globales ---
   if (!data.brand.trim()) return "La marca es obligatoria.";
   if (!data.model.trim()) return "El modelo es obligatorio.";
-  if (data.price <= 0) return "El precio debe ser mayor a 0.";
+  if (data.price <= 0) return "El precio debe ser un número positivo.";
   
-  // Validación de Imagen (Cloudinary)
-  if (!data.image) return "Debes subir una imagen antes de registrar.";
+  // Imagen y Galería
+  if (!data.image) return "La imagen principal es obligatoria.";
+  if (!data.images || data.images.length === 0) {
+    return "Debes subir al menos una imagen a la galería.";
+  }
 
-  // --- 2. Validaciones Específicas por Tipo ---
-  
+  // Color y Condición
+  if (!data.color?.trim()) return "El color es obligatorio.";
+  if (!data.condition?.trim()) return "Indica si es Nuevo o Usado.";
+
+  // --- 2. Validación de Descripción (NUEVA) ---
+  if (!data.description?.trim()) {
+    return "La descripción es obligatoria. Detalla qué incluye el producto.";
+  }
+  if (data.description.length < 10) {
+    return "La descripción es muy corta. Da más detalles (mínimo 10 caracteres).";
+  }
+
+  // --- 3. Validaciones por Tipo ---
   if (data.type === 'phone') {
-    // Para Teléfonos: El almacenamiento es crítico (ej: 128GB)
-    if (!data.storage?.trim()) {
-      return "Indica el almacenamiento del teléfono (ej: 128GB).";
+    if (!data.storage?.trim()) return "Indica el almacenamiento (ej: 128GB).";
+    if (!data.screen?.trim()) return "El tamaño de pantalla es obligatorio.";
+    if (!data.battery?.toString().trim()) {
+    return "La salud de batería es obligatoria.";
     }
-    // La condición suele ser importante en teléfonos (Nuevo/Usado)
-    if (!data.condition?.trim()) {
-      return "Indica si el teléfono es Nuevo o Usado.";
-    }
+    if (!data.camera?.trim()) return "Las specs de la cámara son obligatorias.";
   }
 
   if (data.type === 'accessory') {
-    // Para Accesorios: El campo 'storage' lo usamos para "Detalles/Color"
-    if (!data.storage?.trim()) {
-      return "Indica los detalles o color del accesorio.";
-    }
+    if (!data.storage?.trim()) return "Indica el tipo o capacidad del accesorio.";
   }
 
-  return null; // Si llega aquí, todo está perfecto
+  return null; 
 };
