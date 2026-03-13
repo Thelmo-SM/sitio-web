@@ -1,9 +1,12 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import { HomeContent, Product, Service, WhyChooseUs } from "@/types/content"
+import { unstable_noStore as noStore } from "next/cache"
 
 export const getHomeContent = async (): Promise<HomeContent | null> => {
   try {
+    noStore()
+
     const ref = doc(db, "content", "home")
     const snap = await getDoc(ref)
 
