@@ -57,6 +57,7 @@ export default function RepairServices() {
               grid grid-cols-1 lg:grid-cols-2
               gap-8
               items-stretch
+              shadow-2xl
             "
           >
             {/* DOCUMENTO */}
@@ -244,7 +245,7 @@ export default function RepairServices() {
                 min-h-[500px]
                 rounded
                 overflow-hidden
-                shadow-2xl
+                shadow
                 "
               >
                 <Image
