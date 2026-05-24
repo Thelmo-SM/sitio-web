@@ -189,12 +189,14 @@ useEffect(() => {
             <Field label="Marca" placeholder="Ej: Apple" value={formData.brand} onChange={(v) => setFormData({...formData, brand: v})} />
             <Field label="Modelo" placeholder="Ej: iPhone 15 Pro" value={formData.model} onChange={(v) => setFormData({...formData, model: v})} />
             <Field label="Precio (USD)" type="number" placeholder="0.00" value={formData.price} onChange={(v) => setFormData({...formData, price: Number(v)})} />
-            <Field 
-              label={formData.type === 'phone' ? "Almacenamiento" : "Capacidad / Tipo"} 
-              placeholder="Ej: 128GB, 1TB..." 
+              {formData.type === 'phone' && (
+             <Field 
+              label="Almacenamiento"
+              placeholder="Ej: 128GB, 256GB..."
               value={formData.storage} 
               onChange={(v) => setFormData({...formData, storage: v})} 
-            />
+              />
+              )}
           </div>
 
           {/* Especificaciones Detalladas */}
