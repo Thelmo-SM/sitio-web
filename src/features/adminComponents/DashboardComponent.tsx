@@ -36,9 +36,21 @@ export default function DashboardComponent() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[25em]">
-        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded animate-spin"></div>
-      </div>
+<div className="flex items-center justify-center min-h-[25em]">
+  <div
+    className="
+      relative
+      w-14 h-14
+      rounded-full
+      border-4 border-slate-700
+      border-t-blue-500
+      border-r-blue-400
+      animate-spin
+      shadow-[0_0_25px_rgba(59,130,246,0.35)]
+    "
+  >
+  </div>
+</div>
     )
   }
 
