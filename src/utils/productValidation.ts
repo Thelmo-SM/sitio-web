@@ -34,9 +34,9 @@ export const validateProductForm = (data: Omit<Product, 'id'>): string | null =>
     if (!data.camera?.trim()) return "Las specs de la cámara son obligatorias.";
   }
 
-  if (data.type === 'accessory') {
-    if (!data.storage?.trim()) return "Indica el tipo o capacidad del accesorio.";
-  }
+  // if (data.type === 'accessory') {
+  //   if (!data.storage?.trim()) return "Indica el tipo o capacidad del accesorio.";
+  // }
 
   return null; 
 };
