@@ -74,7 +74,7 @@ export const LocationComponent = () => {
                 "
               >
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123456.7890123456!2d-99.12345678901234!3d19.123456789012345"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30056.724560786257!2d-70.84466652533659!3d19.666141026460632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb195404134cdfb%3A0x2a16071094d3cd5f!2sAltamira!5e0!3m2!1ses!2sdo!4v1779659265084!5m2!1ses!2sdo"
                   className="w-full h-full border-0"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
