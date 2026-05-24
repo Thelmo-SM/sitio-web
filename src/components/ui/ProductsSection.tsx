@@ -13,6 +13,7 @@ import { Product } from '@/types/content';
 import { ModalProducts } from './modals/ModalProducts';  
 import { useModalProducts } from '@/hooks/useModalProducts'; // Ajusta la ruta según tu carpeta
 import ProductDetail from './ProductDetail'; // El contenido que creamos
+import ProductCardSkeleton from './loaders/ProductCardSkeleton';
 
 const ITEMS_PER_PAGE = 10
 
@@ -49,7 +50,31 @@ export const ProductsSection = () => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  if (loading) return <div className="bg-black py-20 text-center text-white">Cargando productos...</div>;
+  if (loading) {
+  return (
+    <section
+      className="bg-black backdrop-blur pb-20 scroll-mt-20"
+      id="productos"
+    >
+      <div className="mx-auto w-[85%]">
+
+        <h2 className="text-center text-gray-400 pt-10 text-2xl md:text-4xl font-bold">
+          Nuestros Productos
+        </h2>
+
+        <SectionDivider />
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 min-h-[42em] items-start">
+
+          {Array.from({ length: 10 }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))}
+
+        </div>
+      </div>
+    </section>
+  )
+}
 
   return (
     <section className="bg-black backdrop-blur pb-20 scroll-mt-20" id='productos'>

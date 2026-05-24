@@ -2,7 +2,7 @@
 
 export const siteConfig = {
   // Información básica del sitio
-  siteName: "Tienda de Celulares Premium",
+  siteName: "CellStore",
   description: "Tu tienda de celulares de confianza. Venta de smartphones últimos modelos, accesorios y servicio técnico profesional.",
   siteUrl: "https://tutienda.com", // Cambia esto por tu dominio real
   logo: "https://tutienda.com/logo.png",

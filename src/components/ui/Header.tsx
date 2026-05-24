@@ -22,7 +22,7 @@ export default function Navbar() {
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           {/* Logo */}
           <Link href="/" className="text-xl font-bold text-white">
-            Sitio<span className="text-blue-500">Web</span>
+            Cell<span className="text-blue-500">Store</span>
           </Link>
 
           {/* Desktop menu */}
@@ -110,7 +110,7 @@ export default function Navbar() {
 
     {/* Brand */}
     <div className="mt-12 text-xl font-bold text-white">
-      Sitio<span className="text-blue-500">Web</span>
+      Cell<span className="text-blue-500">Store</span>
     </div>
   </div>
 </div>

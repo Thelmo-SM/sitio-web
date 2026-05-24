@@ -55,7 +55,7 @@ const Footer = () => {
 
       {/* Línea inferior */}
       <div className="border-t border-gray-800 mt-10 py-4 text-center text-sm text-gray-400">
-        © {new Date().getFullYear()} CellStore. Todos los derechos reservados.
+        © {new Date().getFullYear()} Thelmo SM. Todos los derechos reservados.
       </div>
     </footer>
   );
